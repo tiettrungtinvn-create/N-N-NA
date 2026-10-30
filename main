@@ -1,85 +1,8 @@
 #include <iostream>
-#include <string>
+#include "HoSoBenhNhan.h"
+#include "HeThongBenhVien.h"
 using namespace std;
-struct BenhNhan {
-    int maBenhNhan;
-    string ten;
-    int doUuTien;
-};
-class HangDoiBenhVien {
-private:
-    BenhNhan* danhSach;
-    int sucChua;
-    int dau;
-    int cuoi;
-    int soLuong;
-public:
-    HangDoiBenhVien(int sc);
-    ~HangDoiBenhVien();
-    void xepHang(BenhNhan bn);
-    BenhNhan goiKham();
-    bool laRong();
-};
-
-HangDoiBenhVien::HangDoiBenhVien(int sc) {
-    sucChua = sc;
-    danhSach = new BenhNhan[sucChua];
-    dau = 0;
-    cuoi = -1;
-    soLuong = 0;
-}
-HangDoiBenhVien::~HangDoiBenhVien() {
-    delete[] danhSach;
-}
-void HangDoiBenhVien::xepHang(BenhNhan bn) {
-    if (soLuong == 0) {
-        cuoi = (cuoi + 1) % sucChua;
-        danhSach[cuoi] = bn;
-        soLuong++;
-        return;
-    }
-    int i = cuoi;
-    int viTriTiepTheo = (cuoi + 1) % sucChua;
-    int soPhanTuDaKiemTra = 0;
-    while (soPhanTuDaKiemTra < soLuong && danhSach[i].doUuTien < bn.doUuTien) {
-        danhSach[viTriTiepTheo] = danhSach[i];
-        viTriTiepTheo = i;
-        i = (i - 1 + sucChua) % sucChua;
-        soPhanTuDaKiemTra++;
-    }
-    danhSach[viTriTiepTheo] = bn;
-    cuoi = (cuoi + 1) % sucChua;
-    soLuong++;
-}
-BenhNhan HangDoiBenhVien::goiKham() {
-    BenhNhan bn = danhSach[dau];
-    dau = (dau + 1) % sucChua;
-    soLuong--;
-    return bn;
-}
-bool HangDoiBenhVien::laRong() {
-    return soLuong == 0;
-}
-void xuLy() {
-    int n;
-    cin >> n;
-    HangDoiBenhVien hd(n);  
-    for(int i = 0; i < n; ++i) {
-        BenhNhan bn;
-        cin >> bn.maBenhNhan;
-        cin.ignore();
-        getline(cin, bn.ten);
-        cin >> bn.doUuTien;
-        hd.xepHang(bn);
-    } 
-    while(!hd.laRong()) {
-        BenhNhan bn = hd.goiKham();
-        cout << bn.maBenhNhan << " " << bn.ten << "\n";
-    }
-}
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(NULL);   
-    xuLy();
     return 0;
-}
