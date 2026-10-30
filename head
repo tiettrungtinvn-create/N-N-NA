@@ -1,0 +1,12 @@
+#pragma once
+#include <string>
+using namespace std;
+
+struct HoSoBenhNhan {
+    int maBenhNhan;
+    string hoTen;
+    string ngaySinh;
+    string trieuChung;
+    string phongKhamChiDinh;
+    int mucDoUuTien;
+};
